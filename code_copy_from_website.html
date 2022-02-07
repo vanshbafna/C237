@@ -1,0 +1,329 @@
+
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+    
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+        <!-- Font Awesome -->
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;900&display=swap" rel="stylesheet">
+    
+        <!-- Sweet Alert -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <script>
+        function logout_user() {
+            $.ajax({
+                url: "/api/logout",
+                type: 'post',
+                success: function (result) {
+                    window.location.href = "/";
+                },
+                error: function (result) {
+                    alert(result.responseJSON.message);
+                }
+            });
+        }
+    </script>
+        <style>
+        body {
+            direction: ltr;
+            text-align:left;
+            background-color: #f0f1f3;
+            font-family: 'Fira Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        .blur {
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+            -moz-filter: blur(5px);
+            -o-filter: blur(5px);
+            -ms-filter: blur(5px);
+        }
+        #loader {
+            position: fixed;
+            display: none;
+            align-items: center;
+            width: 50%;
+            top: 30%;
+            left: 35%;
+            z-index: 999;
+        }
+        .loading-gif {
+            width: 50%;
+            height: auto;
+        }
+        .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
+            color: #72f588;
+        }
+        .navbar-light .navbar-nav .nav-link {
+            color: white;
+        }
+    
+        .searchInputWrapper {
+            position: relative;
+        }
+    
+        .searchInput {
+            width: 20rem;
+            height: 2rem;
+            padding: 0 1rem; 
+            border-radius: 2rem;
+            border: none;
+            background-color: #c5b5e5;
+            transition: transform 0.1s ease-in-out;
+        }
+    
+        ::placeholder {
+            color: black;
+        }
+    
+        :focus::placeholder {
+            text-indent: -999px
+        }
+    
+        .searchInput:focus {
+            outline: none;
+            transform: scale(1.1);
+            transition: all 0.1s ease-in-out;
+        }
+    
+        .searchInputIcon {
+            position: absolute;
+            right: 0.8rem;
+            top: 0.5rem;
+            color: black;
+            transition: all 0.1s ease-in-out;
+        }
+    
+        .container:focus-within > 
+        .searchInputWrapper > .searchInputIcon {
+            right: 0.2rem;
+        }
+    
+        .nav-icon {
+            font-size: 2em;
+        }
+    
+        .nav-text {
+            font-size: 1em;
+        }
+    
+        .help-button {
+            background-color: #673dcf;
+            padding: 0.5em 1em;
+            border-radius: 2em;
+        }
+    </style>
+    </head>
+    
+    <body>
+        <div class="main-container">
+            <nav class="navbar fixed-top navbar-expand navbar-light" style="background: #442ea6;">
+                <div class="navbar-collapse" id="navbarsExample02">
+                    <a class="navbar-brand pl-5 pr-5" href="/">
+                        <span style="font-size: 2em; color: white;"><b>Toy-e-Wagon</b></span>
+                    </a>
+                    <div>
+                        <div class="searchInputWrapper">
+                            <input class="searchInput" type="text" placeholder='Search'>
+                            <i class="searchInputIcon fa fa-search"></i>
+                            </input>
+                        </div>
+                    </div>
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item align-self-center" id="dashboard_navigator">
+                            <a class="nav-link" href="/dashboard">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center text-white mt-2">
+                                        <i class="fa fa-tachometer nav-icon"></i>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center text-white">
+                                        <p class="nav-text">Dashboard</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item align-self-center" id="profile_navigator">
+                            <a class="nav-link" href="/profile?id=1">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center text-white mt-2">
+                                        <i class="fa fa-user nav-icon"></i>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center text-white">
+                                        <p class="nav-text">Profile</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item align-self-center">
+                            <a class="nav-link" onclick="logout_user()">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center text-white mt-2">
+                                        <i class="fa fa-sign-out nav-icon"></i>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center text-white">
+                                        <p class="nav-text">Logout</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/help">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-center text-white mt-2 help-button">
+                                        <i class="fa fa-question-circle-o nav-icon"></i>
+                                        <span class="nav-text p-3" style="font-size: 1.5em;">Help</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-md-0"> </form>
+                </div>
+            </nav>
+        </div>
+        <div>
+            
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    
+    <script>
+        $(document).ready( function () {
+            $('#order_table').DataTable();
+            $("#order_table_filter").css("display", "none");
+            $('#ticket_table').DataTable();
+            $("#ticket_table_filter").css("display", "none");
+        } );
+        $(function(){
+            $(".order-btn").click(function(){
+                let data = {
+                    order_id: $("#order_id").val()
+                }
+                $.ajax({
+                    url: `/api/search-order?order_id=${$("#order_id").val()}`,
+                    type: "get",
+                    success: function (result) {
+                        $("#orders_data").empty()
+                        for (let i = 0; i < result.orders.length; i++) {
+                            let html = `
+                                <tr>
+                                    <td><img src="${result.orders[i][0]}" width=100 /></td>
+                                    <td>${result.orders[i][1]}</td>
+                                    <td>${result.orders[i][2]}</td>
+                                </tr>
+                            `
+                            $("#orders_data").append(html)
+                        }
+                    },
+                    error: function (result) {
+                        Swal.fire(
+                            'Uh Oh!',
+                            result.responseJSON.message,
+                            'error'
+                        )
+                    }
+                })
+            })
+        })
+    </script>
+    <style>
+        .order-container {
+            background-color: white;
+        }
+        .address-box {
+            border: 1px solid black;
+            padding: 0.5em;
+        }
+        .search-btn {
+            background-color: #442ea6;
+            width: 100%;
+            padding: 0.5em 1em;
+            color: white;
+            border: none;
+            font-size: 1em;
+        }
+        #order_list {
+            color: #828282;
+        }
+    </style>
+    
+    <div class="m-5">
+        <div class="row mt-5">
+            <div class="col-sm-12 col-md-4 col-lg-4 mt-5">
+                <div class="row mt-5">
+                    <div class="col-sm-12 col-md-12 col-lg-12 mt-5">
+                        <p><b>John Doe</b></p>
+                        <p style="color: #828282;">+1 (1234) 123 123</p>
+                        <hr />
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 mt-5">
+                        <p><b>Address</b></p>
+                        
+                        <div class="address-box mt-2">
+                            <p style="color: #828282;">100, nalanda appartment, 22 C,
+                                Haryana,
+                                India - 121001</p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-8 mt-5">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row mt-5 order-container p-5">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <h3 style="color: #828282;"><b>Orders</b></h3>
+                            </div>
+                            <div class="col-sm-10 col-md-10 col-lg-10 mt-4">
+                                <input type="text" class="form-control" name="order_id" id="order_id"
+                                    placeholder="Search for an order by Order ID" />
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2 text-center mt-4">
+                                <button class="search-btn order-btn">Search</button>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-5" id="order_list">
+                                
+                                <h5>No orders to display</h5>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tickets -->
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="row mt-5 order-container p-5">
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <h3 style="color: #828282;"><b>Tickets</b></h3>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 mt-5" id="order_list">
+                                
+                                <h5>No tickets to display</h5>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+        </div>
+    </body>
+    
+    </html>

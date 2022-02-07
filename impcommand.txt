@@ -1,0 +1,3 @@
+termina command to convert python/text file into executable shell (command) file(" chmod +x test1.command ")
+
+before coverting your python/text file to executable shell (command) file add (" #!/usr/bin/env python ") in your first line of your file
